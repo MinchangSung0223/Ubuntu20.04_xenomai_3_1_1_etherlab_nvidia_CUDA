@@ -397,6 +397,10 @@ source ~/.bashrc
 ![Screenshot from 2023-06-17 19-07-00](https://github.com/MinchangSung0223/Ubuntu20.04_xenomai_3_1_1_etherlab_nvidia_CUDA/assets/53217819/24ba7331-308c-4ca1-8f9f-8814dfffb748)
 
 
+# Korean setttings 
+```bash
+  sudo apt-get install fcitx-hangul
+```
 
 
 

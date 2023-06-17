@@ -41,6 +41,7 @@ cd ~/xeno_ws
  make menuconfig
 ```
 Recommended options:
+```bash
 
 * General setup
   --> Local version - append to kernel release: -xenomai-3.1.1
@@ -108,39 +109,44 @@ Recommended options:
 * Kernel hacking
   --> KGDB: kernel debugger (Disable)
   --> Debug preemtible kernel (Disable)
-
+```
 # Preventing the error occurs such as 
+```
 #make[2]: *** No rule to make target 'debian/canonical-certs.pem', needed by 'certs/x509_certificate_list'.  Stop.
 #make[2]: *** Waiting for unfinished jobs....
 #make[1]: *** [Makefile:1734: certs] Error 2
 #make[1]: *** Waiting for unfinished jobs....
 #make[1]: Leaving directory '/home/xeno/xeno_ws/linux-5.4.124'
 #make: *** [debian/ruleset/targets/common.mk:301: debian/stamp/build/kernel] Error 2
-$ sudo gedit .config
+```
+```bash
+sudo gedit .config
+```
+```bash
 # CONFIG_SYSTEM_TRUSTED_KEYS="debian/canonical-certs.pem" --> CONFIG_SYSTEM_TRUSTED_KEYS=""
 # CONFIG_SYSTEM_REVOCATION_KEYS="debian/canonical-certs.pem" --> CONFIG_SYSTEM_REVOCATION_KEYS=""
-
+```
   
-### to make package file of the kernel
-$ sudo CONCURRENCY_LEVEL=$(nproc) make-kpkg --rootcmd fakeroot --initrd kernel_image kernel_headers
+# to make package file of the kernel
+```bash
+ sudo CONCURRENCY_LEVEL=$(nproc) make-kpkg --rootcmd fakeroot --initrd kernel_image kernel_headers
 
-$ cd ..
-$ sudo dpkg -i linux-headers-5.4.124-xenomai-3.1.1+_5.4.124-xenomai-3.1.1+-10.00.Custom_amd64.deb linux-image-5.4.124-xenomai-3.1.1+_5.4.124-xenomai-3.1.1+-10.00.Custom_amd64.deb
+ cd ..
+ sudo dpkg -i linux-headers-5.4.124-xenomai-3.1.1+_5.4.124-xenomai-3.1.1+-10.00.Custom_amd64.deb linux-image-5.4.124-xenomai-3.1.1+_5.4.124-xenomai-3.1.1+-10.00.Custom_amd64.deb
+```
 
-
-######  Allow non-root user
-
-$ sudo addgroup xenomai --gid 1234
-if 'addgroup: The group 'xenomai' already exists.' error occurs,
-$ sudo groupmod -g 1234 xenomai
-$ sudo addgroup root xenomai
-$ sudo usermod -a -G xenomai $USER
-
+# Allow non-root user
+```bash
+ sudo addgroup xenomai --gid 1234   ---------  if 'addgroup: The group 'xenomai' already exists.' error occurs,
+ sudo groupmod -g 1234 xenomai
+ sudo addgroup root xenomai
+ sudo usermod -a -G xenomai $USER
+```
 Configure GRUB and reboot
 Editing the grub config:
-
-$ sudo gedit /etc/default/grub
-
+```bash
+ sudo gedit /etc/default/grub
+```
 GRUB_DEFAULT="Advanced options for Ubuntu>Ubuntu, with Linux 5.4.124-xenomai-3.1.1+"
 #GRUB_DEFAULT=saved
 #GRUB_SAVEDEFAULT=true

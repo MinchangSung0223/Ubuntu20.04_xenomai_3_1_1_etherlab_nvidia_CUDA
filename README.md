@@ -340,30 +340,32 @@ You need to be in root sudo -s, then you can set values to the latency calibrati
 ```
 ```
 ...
-MASTER0_DEVICE="$(YOUR_PCI_SERIAL)"
+#MASTER0_DEVICE="$(YOUR_PCI_SERIAL)"
 MASTER0_DEVICE="00:00:00:00:00:00"
 ...
-DEVICE_MODULES="$(YOUR_PCI_DRIVER"
+#DEVICE_MODULES="$(YOUR_PCI_DRIVER"
 DEVICE_MODULES="e1000e"
 
 ```
-# Now we are good to go and we can test if the master can work properly with:
+ Now we are good to go and we can test if the master can work properly with:
+```bash
+ ./etc/init.d/ethercat start
+```
+ You should see the following line printed on the console:
 
-$ ./etc/init.d/ethercat start
+ Starting EtherCAT master 1.5.2 done
 
-# You should see the following line printed on the console:
-
-# Starting EtherCAT master 1.5.2 done
-
-# Additional command line tools can be installed by creating the following link:
-
-$ ln -s /opt/etherlab/bin/ethercat /usr/local/bin/ethercat
-
+ Additional command line tools can be installed by creating the following link:
+```bash
+ ln -s /opt/etherlab/bin/ethercat /usr/local/bin/ethercat
+```
 
 
 # NVIDIA DRIVER install
+```
 Software & Updates -> Additional Drivers -> Using NVIDIAdriver(open kernel) metapackage from nvidia-driver-530(proprietary) check
 ->reboot
+```
 # CUDA 11.2 install
 ```bash
   wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux.run
@@ -382,9 +384,13 @@ Software & Updates -> Additional Drivers -> Using NVIDIAdriver(open kernel) meta
   -> reboot
 ```
 
-
-
-
+```bash
+echo '
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+export PATH=/usr/local/cuda/bin:$PATH
+' >> ~/.bashrc
+source ~/.bashrc
+```
 
 
 

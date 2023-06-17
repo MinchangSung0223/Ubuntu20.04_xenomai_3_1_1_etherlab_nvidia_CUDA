@@ -308,6 +308,34 @@ $ ./etc/init.d/ethercat start
 $ ln -s /opt/etherlab/bin/ethercat /usr/local/bin/ethercat
 
 
+
+# NVIDIA DRIVER install
+Software & Updates -> Additional Drivers -> Using NVIDIAdriver(open kernel) metapackage from nvidia-driver-530(proprietary) check
+->reboot
+# CUDA 11.2 install
+```bash
+  wget https://developer.download.nvidia.com/compute/cuda/11.2.0/local_installers/cuda_11.2.0_460.27.04_linux.run
+  sudo chmod 777 cuda_11.2.0_460.27.04_linux.run
+  init 3
+```
+```bash
+  login : user 
+  passwd : passwd
+
+  ./cuda_11.2.0_460.27.04_linux.run
+  -> continue
+  -> accept
+  -> Don't check "INSTALL NVIDIA DRIVER"
+  -> INSTALL
+  -> reboot
+```
+
+
+
+
+
+
+
 ![Screenshot from 2023-06-17 19-07-00](https://github.com/MinchangSung0223/Ubuntu20.04_xenomai_3_1_1_etherlab_nvidia_CUDA/assets/53217819/24ba7331-308c-4ca1-8f9f-8814dfffb748)
 
 

@@ -248,7 +248,7 @@ $ echo ${my_super_value_in_ns} > /proc/xenomai/latency
 $ cd /usr/src
 $ sudo -s
 
-$ git clone https://gitlab.com/SHKim-HYU/ethercat.git
+$ git clone https://github.com/SHKim-HYU/ethercat.git
 # This repository is forked from 'e1000e-5.4' branch for e1000e (https://gitlab.com/etherlab.org/ethercat.git) and from 'stable/vectioneer' branch for igb (https://git.vectioneer.com/pub/etherlab/-/tree/stable/vectioneer/)
 # In this repository, there are some update w.r.t. xenomai migration from 2 to 3
 # Please refer to ribalda's repository (https://github.com/ribalda/ethercat)
@@ -306,6 +306,9 @@ $ ./etc/init.d/ethercat start
 # Additional command line tools can be installed by creating the following link:
 
 $ ln -s /opt/etherlab/bin/ethercat /usr/local/bin/ethercat
+
+
+![Screenshot from 2023-06-17 19-07-00](https://github.com/MinchangSung0223/Ubuntu20.04_xenomai_3_1_1_etherlab_nvidia_CUDA/assets/53217819/24ba7331-308c-4ca1-8f9f-8814dfffb748)
 
 
 

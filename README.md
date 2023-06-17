@@ -1,23 +1,28 @@
-Xenomai 3.1.1 + linux 5.4.124 on Ubuntu 20.04
----Sunhong Kim----
-05.31.2023
+Xenomai 3.1.1 + linux 5.4.124 on Ubuntu 20.04 + NVIDIA driver+ CUDA
 
-######  Install the build-tools and dependencies
-$ sudo apt-get update
-$ sudo apt install build-essential kernel-package libncurses5 libncurses5-dev libelf-dev openssl libssl-dev libtool libltdl-dev git distcc xenomai-system-tools rt-tests libc-dev libc6-dev pkg-config ncurses-dev stress autoconf libncurses-dev flex bison libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev dwarves fakeroot bin86 curl bc gcc
+---Sunhong Kim & Minchang Sung----
+06.17.2023 Update
 
+# Install the build-tools and dependencies
+```bash
+sudo apt-get update
+sudo apt install build-essential kernel-package libncurses5 libncurses5-dev libelf-dev openssl libssl-dev libtool libltdl-dev git distcc xenomai-system-tools rt-tests libc-dev libc6-dev pkg-config ncurses-dev stress autoconf libncurses-dev flex bison libssl-dev dkms libelf-dev libudev-dev libpci-dev libiberty-dev dwarves fakeroot bin86 curl bc gcc
+```
 --> install the package maintainer's version
 
-$ mkdir ~/xeno_ws
-$ cd ~/xeno_ws
 
-######  Get Xenomai 3.1.1
-$ git config --global http.sslverify false
-$ git clone https://source.denx.de/Xenomai/xenomai.git
-$ cd xenomai 
-$ git checkout v3.1.1 
-$ cd ../
-
+```bash
+mkdir ~/xeno_ws
+cd ~/xeno_ws
+```
+# Get Xenomai 3.1.1
+```bash
+ git config --global http.sslverify false
+ git clone https://source.denx.de/Xenomai/xenomai.git
+ cd xenomai 
+ git checkout v3.1.1 
+ cd ../
+```
 ######  Get ipipe patched Linux kernel
 $ git clone https://source.denx.de/Xenomai/ipipe-x86.git
 $ git cd ipipe-x86

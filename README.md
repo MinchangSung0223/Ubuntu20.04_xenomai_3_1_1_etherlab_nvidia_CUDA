@@ -147,6 +147,7 @@ Editing the grub config:
 ```bash
  sudo gedit /etc/default/grub
 ```
+```bash
 GRUB_DEFAULT="Advanced options for Ubuntu>Ubuntu, with Linux 5.4.124-xenomai-3.1.1+"
 #GRUB_DEFAULT=saved
 #GRUB_SAVEDEFAULT=true
@@ -157,26 +158,34 @@ GRUB_TIMEOUT=5
 GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash xenomai.allowed_group=1234"
 GRUB_CMDLINE_LINUX=""
+```
+```bash
+
 If you have an Intel HD Graphics integrated GPU (any type) :
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash i915.enable_rc6=0 i915.enable_dc=0 noapic xenomai.allowed_group=1234"
 # This removes powersavings from the graphics, that creates disturbing interruptions.
 If you have an Intel Skylake (2015 processors), you need to add nosmap to fix the latency hang
 
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash i915.enable_rc6=0 i915.enable_dc=0 xenomai.allowed=1234 nosmap"
+```
+#  Update grub and reboot
+```bash
+ sudo update-initramfs -c -k 5.4.124-xenomai-3.1.1+
+ sudo grub-mkconfig -o /boot/grub/grub.cfg
+ sudo update-grub
+ sudo reboot
+```
 
-#####  Update grub and reboot
-$ sudo update-initramfs -c -k 5.4.124-xenomai-3.1.1+
-$ sudo grub-mkconfig -o /boot/grub/grub.cfg
-$ sudo update-grub
-$ sudo reboot
-
-
-######  Installing Xenomai 3.1.1 User space libraries
+#  Installing Xenomai 3.1.1 User space libraries
 First, make sure that you are running the cobalt kernel :
+```bash
+ uname -a
+```
+Should return Linux ${YOUR_NAME} 5.4.124-xenomai-3.1.1 #2 SMP Wed Sep 20 16:00:12 CEST 2017 x86_64 x86_64 x86_64 GNU/Linux
 
-$ uname -a
-# Should return Linux ${YOUR_NAME} 5.4.124-xenomai-3.1.1 #2 SMP Wed Sep 20 16:00:12 CEST 2017 x86_64 x86_64 x86_64 GNU/Linux
-$ dmesg | grep Xenomai
+```bash
+dmesg | grep Xenomai
+
 # [    1.417024] [Xenomai] scheduling class idle registered.
 # [    1.417025] [Xenomai] scheduling class rt registered.
 # [    1.417045] [Xenomai] disabling automatic C1E state promotion on Intel processor
@@ -184,14 +193,16 @@ $ dmesg | grep Xenomai
 # [    1.417088] I-pipe: head domain Xenomai registered.
 # [    1.417704] [Xenomai] allowing access to group 1234
 # [    1.417726] [Xenomai] Cobalt v3.0.9 (Sisyphus's Boulder) [DEBUG]
-
-$ cd ~/xeno_ws/xenomai
-$ automake --add-missing
-$ autoreconf -i
-$ ./configure --with-pic --with-core=cobalt --enable-smp --disable-tls --enable-dlopen-libs --disable-clock-monotonic-raw
-$ sudo make -j`nproc`
-$ sudo make install
+```
+```bash
+ cd ~/xeno_ws/xenomai
+ automake --add-missing
+ autoreconf -i
+ ./configure --with-pic --with-core=cobalt --enable-smp --disable-tls --enable-dlopen-libs --disable-clock-monotonic-raw
+ sudo make -j`nproc`
+ sudo make install
 # --disable-clock-monotonic-raw : http://xenomai.org/pipermail/xenomai/2017-September/037695.html
+```
 
 Update your bashrc
 

@@ -206,6 +206,7 @@ dmesg | grep Xenomai
 
 Update your bashrc
 
+```bash
 $ echo '
 ### Xenomai
 export XENOMAI_ROOT_DIR=/usr/xenomai
@@ -215,26 +216,32 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$XENOMAI_PATH/lib/pkgconfig
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$XENOMAI_PATH/lib
 export OROCOS_TARGET=xenomai
 ' >> ~/.bashrc
+```
+```bash
+ source ~/.bashrc
+ sudo chmod -R 777 /dev/rtdm/memdev-private
+ sudo chmod -R 777 /dev/rtdm/memdev-shared
+```
 
-$ source ~/.bashrc
-
-$ sudo chmod -R 777 /dev/rtdm/memdev-private
-$ sudo chmod -R 777 /dev/rtdm/memdev-shared
-
-# If you have a problem that sudo does not recognize the SHARED LIBRARY PATH, type the following command.
-
-$ cd /etc/ld.so.conf.d/
-$ sudo gedit xenomai.conf
-'
+If you have a problem that sudo does not recognize the SHARED LIBRARY PATH, type the following command.
+```bash
+ cd /etc/ld.so.conf.d/
+ sudo gedit xenomai.conf
+ ```
+```bash
 ### Multiarch support
 /usr/xenomai/lib
-'
-$ sudo ldconfig -v
+ ```
+```bash
+ sudo ldconfig -v
+```
 
+# Test your installation
+```bash
+ cd /usr/xenomai/bin
+ sudo ./latency
+ ```
 
-######  Test your installation
-$ cd /usr/xenomai/bin
-$ sudo ./latency
 This loop will allow you to monitor a xenomai latency. Here’s the output for an i7 4Ghz :
 
 == Sampling period: 100 us
@@ -252,19 +259,19 @@ RTD|      0.347|      0.463|      1.313|       0|     0|      0.088|      2.297
 RTD|      0.314|      0.464|      1.465|       0|     0|      0.088|      2.297
 RTD|      0.190|      0.464|      1.311|       0|     0|      0.088|      2.297
 
-######  Fix negative latency issues
+#  Fix negative latency issues
 You need to be in root sudo -s, then you can set values to the latency calibration variable in nanoseconds:
+```bash
+ echo 0 > /proc/xenomai/latency
+```
+ Now run the latency test
+ If the minimum latency value is positive,
+ then get the lowest value from the latency test (ex: 0.088 us)
+ and write it to the calibration file ( here you have to write 88 ns) :
+ echo ${my_super_value_in_ns} > /proc/xenomai/latency
 
-$ echo 0 > /proc/xenomai/latency
-# Now run the latency test
 
-# If the minimum latency value is positive,
-# then get the lowest value from the latency test (ex: 0.088 us)
-# and write it to the calibration file ( here you have to write 88 ns) :
-$ echo ${my_super_value_in_ns} > /proc/xenomai/latency
-
-
-######  References
+# References
 [1] https://www.programmersought.com/article/14375437246/
 [2] 실시간 EtherCAT 마스터 구현에 관한 연구
 

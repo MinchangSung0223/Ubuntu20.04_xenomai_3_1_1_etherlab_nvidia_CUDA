@@ -243,7 +243,7 @@ If you have a problem that sudo does not recognize the SHARED LIBRARY PATH, type
  ```
 
 This loop will allow you to monitor a xenomai latency. Here’s the output for an i7 4Ghz :
-
+```
 == Sampling period: 100 us
 == Test mode: periodic user-mode task
 == All results in microseconds
@@ -258,7 +258,7 @@ RTD|      0.327|      0.462|      2.297|       0|     0|      0.088|      2.297
 RTD|      0.347|      0.463|      1.313|       0|     0|      0.088|      2.297
 RTD|      0.314|      0.464|      1.465|       0|     0|      0.088|      2.297
 RTD|      0.190|      0.464|      1.311|       0|     0|      0.088|      2.297
-
+```
 #  Fix negative latency issues
 You need to be in root sudo -s, then you can set values to the latency calibration variable in nanoseconds:
 ```bash
@@ -276,58 +276,77 @@ You need to be in root sudo -s, then you can set values to the latency calibrati
 [2] 실시간 EtherCAT 마스터 구현에 관한 연구
 
 
-
-
-$ cd /usr/src
-$ sudo -s
-
-$ git clone https://github.com/SHKim-HYU/ethercat.git
-# This repository is forked from 'e1000e-5.4' branch for e1000e (https://gitlab.com/etherlab.org/ethercat.git) and from 'stable/vectioneer' branch for igb (https://git.vectioneer.com/pub/etherlab/-/tree/stable/vectioneer/)
-# In this repository, there are some update w.r.t. xenomai migration from 2 to 3
-# Please refer to ribalda's repository (https://github.com/ribalda/ethercat)
-
-$ cd ethercat
-
-### 1) e1000e-5.4
-$ ./bootstrap
-$ ./configure --with-module-dir=/lib/modules/5.4.124-xenomai-3.1.1+ --enable-rtdm --with-xenomai-dir=/usr/xenomai --disable-8139too --enable-e1000e --enable-generic --prefix=/opt/etherlab
-
-### 2) igb-5.4
-$ ./bootstrap
-$ ./configure --with-module-dir=/lib/modules/5.4.124-xenomai-3.1.1+ --enable-rtdm --with-xenomai-dir=/usr/xenomai --disable-8139too --enable-igb --enable-generic --prefix=/opt/etherlab
-
-$ make modules -j$(nproc)
-$ make -j$(nproc)
-$ make install
-$ make modules_install
-
-# Now the Etherlab master is installed in ”/opt/etherlab” and has to be configured at application level. Therefore:
-
-$ cd /opt/etherlab/
-$ mkdir /etc/sysconfig
-$ cp etc/sysconfig/ethercat /etc/sysconfig/
-$ ln -s /opt/etherlab/etc/init.d/ethercat /etc/init.d/ethercat
-
-# following command makes the system call the ethercat driver when it starts
-# If your system is Ubuntu 16.04, then
-
-$ /usr/lib/insserv/insserv /etc/init.d/ethercat
-
-# else if the system Ubuntu 18.04. Open the terminal
-
-$ systemctl enable ethercat
-
-# Open "gedit /etc/sysconfig/ethercat" (for instance with nano) and edit it with the previously noted information:
-
-$ gedit /etc/sysconfig/ethercat
-
-# fill in the information following the lshw -class network
-
+# INSTALL ETHERLAB
+```bash
+ cd /usr/src
+ sudo -s
+ git clone https://github.com/SHKim-HYU/ethercat.git
+```
+ This repository is forked from 'e1000e-5.4' branch for e1000e (https://gitlab.com/etherlab.org/ethercat.git) and from 'stable/vectioneer' branch for igb (https://git.vectioneer.com/pub/etherlab/-/tree/stable/vectioneer/)
+ In this repository, there are some update w.r.t. xenomai migration from 2 to 3
+ Please refer to ribalda's repository (https://github.com/ribalda/ethercat)
+```bash
+ cd ethercat
+```
+1) e1000e-5.4
+```bash
+ ./bootstrap
+ ./configure --with-module-dir=/lib/modules/5.4.124-xenomai-3.1.1+ --enable-rtdm --with-xenomai-dir=/usr/xenomai --disable-8139too --enable-e1000e --enable-generic --prefix=/opt/etherlab
+```
+ 2) igb-5.4
+```bash
+ ./bootstrap
+ ./configure --with-module-dir=/lib/modules/5.4.124-xenomai-3.1.1+ --enable-rtdm --with-xenomai-dir=/usr/xenomai --disable-8139too --enable-igb --enable-generic --prefix=/opt/etherlab
+```
+```bash
+ make modules -j$(nproc)
+ make -j$(nproc)
+ make install
+ make modules_install
+```
+ Now the Etherlab master is installed in ”/opt/etherlab” and has to be configured at application level. Therefore:
+```bash
+ cd /opt/etherlab/
+ mkdir /etc/sysconfig
+ cp etc/sysconfig/ethercat /etc/sysconfig/
+ ln -s /opt/etherlab/etc/init.d/ethercat /etc/init.d/ethercat
+```
+ following command makes the system call the ethercat driver when it starts
+ If your system is Ubuntu 16.04, then
+```bash
+ /usr/lib/insserv/insserv /etc/init.d/ethercat
+```
+ else if the system Ubuntu 18.04. Open the terminal
+```bash
+ systemctl enable ethercat
+```
+ Open "gedit /etc/sysconfig/ethercat" (for instance with nano) and edit it with the previously noted information:
+```bash
+ gedit /etc/sysconfig/ethercat
+```
+```bash
+    lshw -class network
+  *-network:1
+       description: Ethernet controller
+       product: Ethernet Connection (7) I219-V
+       vendor: Intel Corporation
+       physical id: 1f.6
+       bus info: pci@0000:00:1f.6
+       version: 10
+       serial: 00:00:00:00:00:00
+       width: 32 bits
+       clock: 33MHz
+       capabilities: pm msi bus_master cap_list
+```
+```
 ...
 MASTER0_DEVICE="$(YOUR_PCI_SERIAL)"
+MASTER0_DEVICE="00:00:00:00:00:00"
 ...
-DEVICE_MODULES="$(YOUR_PCI_DRIVER)"
+DEVICE_MODULES="$(YOUR_PCI_DRIVER"
+DEVICE_MODULES="e1000e"
 
+```
 # Now we are good to go and we can test if the master can work properly with:
 
 $ ./etc/init.d/ethercat start

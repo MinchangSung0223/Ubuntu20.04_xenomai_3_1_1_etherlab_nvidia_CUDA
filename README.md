@@ -23,19 +23,23 @@ cd ~/xeno_ws
  git checkout v3.1.1 
  cd ../
 ```
-######  Get ipipe patched Linux kernel
-$ git clone https://source.denx.de/Xenomai/ipipe-x86.git
-$ git cd ipipe-x86
-$ git checkout ipipe-core-5.4.124-x86-5 
-$ wget https://xenomai.org/downloads/ipipe/v5.x/x86/ipipe-core-5.4.124-x86-5.patch
-$ ../xenomai/scripts/prepare-kernel.sh --arch=x86_64 --ipipe=ipipe-core-5.4.124-x86-5.patch
+# Get ipipe patched Linux kernel
+```bash
+ git clone https://source.denx.de/Xenomai/ipipe-x86.git
+ git cd ipipe-x86
+ git checkout ipipe-core-5.4.124-x86-5 
+ wget https://xenomai.org/downloads/ipipe/v5.x/x86/ipipe-core-5.4.124-x86-5.patch
+ ../xenomai/scripts/prepare-kernel.sh --arch=x86_64 --ipipe=ipipe-core-5.4.124-x86-5.patch
+```
 
-
-######  Configure the kernel
-$ yes "" | make oldconfig
-
-$ make menuconfig
-
+#  Configure the kernel
+```bash
+ yes "" | make oldconfig
+```
+```bash
+ cp /path/to/config .config
+ make menuconfig
+```
 Recommended options:
 
 * General setup
